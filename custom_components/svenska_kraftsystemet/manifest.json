@@ -3,8 +3,8 @@
   "name": "Svenska kraftsystemet",
   "version": "0.1.0",
   "config_flow": true,
-  "documentation": "https://github.com/REPLACE_WITH_YOUR_USERNAME/svenska-kraftsystemet",
-  "issue_tracker": "https://github.com/REPLACE_WITH_YOUR_USERNAME/svenska-kraftsystemet/issues",
+  "documentation": "https://github.com/JojjeHA/svenska-kraftsystemet",
+  "issue_tracker": "https://github.com/JojjeHA/svenska-kraftsystemet/issues",
   "iot_class": "cloud_polling",
   "requirements": [],
   "codeowners": []
