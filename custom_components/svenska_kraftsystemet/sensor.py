@@ -1,23 +1,51 @@
 """Sensors based on ENTSO-E reported Swedish electricity system data."""
 from __future__ import annotations
-from homeassistant.components.sensor import SensorEntity, SensorDeviceClass, SensorStateClass
+
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
 from . import SwedishGridCoordinator
 from .const import DOMAIN, BORDERS, PRODUCTION_TYPES
 
-# Keep all ENTSO-E production types available, but enable only the categories
-# commonly useful in Swedish power-system monitoring on a new installation.
-# Disabled entities remain available for manual activation in Home Assistant.
-# IMPORTANT: Existing entity-registry choices are left untouched on upgrade.
+# Less common categories remain in the entity registry but are disabled by
+# default on new installations. Existing registry preferences are preserved.
 PRODUCTION_ENABLED_BY_DEFAULT = frozenset({
-    "B04",  # Natural gas
-    "B12",  # Reservoir hydro
-    "B14",  # Nuclear
-    "B16",  # Solar
-    "B19",  # Onshore wind
-    "B20",  # Other
+    "B04",  # Naturgas
+    "B12",  # Vattenkraft (magasin)
+    "B14",  # Kärnkraft
+    "B16",  # Solkraft
+    "B19",  # Landbaserad vindkraft
+    "B20",  # Övrigt
 })
+
+# Swedish display names only; the codes and unique IDs remain unchanged.
+PRODUCTION_NAMES_SV = {
+    "B01": "Biomassa",
+    "B02": "Brunkol",
+    "B03": "Kolbaserad gas",
+    "B04": "Naturgas",
+    "B05": "Stenkol",
+    "B06": "Olja",
+    "B07": "Oljeskiffer",
+    "B08": "Torv",
+    "B09": "Geotermisk energi",
+    "B10": "Pumpkraft",
+    "B11": "Vattenkraft (strömmande)",
+    "B12": "Vattenkraft (magasin)",
+    "B13": "Havsenergi",
+    "B14": "Kärnkraft",
+    "B15": "Övrig förnybar energi",
+    "B16": "Solkraft",
+    "B17": "Avfall",
+    "B18": "Havsbaserad vindkraft",
+    "B19": "Landbaserad vindkraft",
+    "B20": "Övrigt",
+}
 
 
 def _number(value):
@@ -25,8 +53,8 @@ def _number(value):
 
 
 def _production(data, code):
-    # The category total is only reported, not a verified complete national total.
-    # A category missing for an area may genuinely be absent, rather than zero.
+    # This is a sum of reported generation in a category, not a verified
+    # nationwide total. Missing values are not interpreted as zero.
     if any(area not in data["production"] for area in ("SE1", "SE2", "SE3", "SE4")):
         return None
     vals = [p[code] for p in data["production"].values() if code in p]
@@ -66,54 +94,3 @@ class SwedishGridSensor(CoordinatorEntity[SwedishGridCoordinator], SensorEntity)
     def __init__(self, coordinator, entry, key, name, getter, *, enabled_default=True):
         super().__init__(coordinator)
         self._key = key
-        self._getter = getter
-        self._attr_name = name
-        self._attr_entity_registry_enabled_default = enabled_default
-        self._attr_unique_id = f"{entry.entry_id}_{key}"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.entry_id)}, name="Sveriges elsystem",
-            manufacturer="ENTSO-E Transparency Platform", model="Swedish power data")
-
-    @property
-    def native_value(self):
-        return self._getter(self.coordinator.data or {})
-
-    @property
-    def available(self):
-        return super().available and self.native_value is not None
-
-    @property
-    def extra_state_attributes(self):
-        data = self.coordinator.data or {}
-        moment = data.get("moment")
-        return {"data_time_utc": moment.isoformat() if moment else None,
-                "source": "ENTSO-E Transparency Platform", "is_live": False,
-                "note": "Reported data; may be delayed or incomplete"}
-
-
-async def async_setup_entry(hass, entry, async_add_entities):
-    coordinator = entry.runtime_data
-    sensors = []
-    for code, name in PRODUCTION_TYPES.items():
-        sensors.append(SwedishGridSensor(coordinator, entry, f"production_{code}",
-            f"Rapporterad produktion {name}", lambda d, code=code: _production(d, code),
-            enabled_default=(code in PRODUCTION_ENABLED_BY_DEFAULT)))
-    # A missing category isn't equal to zero, and so no total-production entity is made yet.
-    for area in ("SE1", "SE2", "SE3", "SE4", "SE"):
-        name = "Sverige" if area == "SE" else area
-        sensors.append(SwedishGridSensor(coordinator, entry, f"load_{area}",
-            f"Elförbrukning {name}", lambda d, area=area: _number(d.get("load", {}).get(area))))
-    for area, other in BORDERS:
-        key = f"{area}_{other}"
-        for direction, label in (("export", "Export"), ("import", "Import")):
-            sensors.append(SwedishGridSensor(coordinator, entry, f"{direction}_{key}",
-                f"{label} {area} {other}", lambda d, key=key, direction=direction: _border(d, key, direction),
-                enabled_default=False))
-        sensors.append(SwedishGridSensor(coordinator, entry, f"net_{key}",
-            f"Nettoexport {area} {other}", lambda d, key=key: _border_net(d, key),
-            enabled_default=False))
-    for direction, label in (("export", "Export Sverige"), ("import", "Import Sverige")):
-        sensors.append(SwedishGridSensor(coordinator, entry, f"total_{direction}", label,
-            lambda d, direction=direction: _total_flows(d, direction)))
-    sensors.append(SwedishGridSensor(coordinator, entry, "total_net", "Nettoexport Sverige", _total_net))
-    async_add_entities(sensors)
