@@ -133,7 +133,7 @@ cards:
     min: 0
     max: 100
     animation:
-      state: "on"
+      state: "off"
       speed: 2
     positions:
       icon: "off"
