@@ -318,7 +318,7 @@ These features are planned or under consideration, not part of this release.
 ### v0.1.5
 - First stable release with the new calculated production sensors and 15-minute updates
 - Documentation and example dashboard for the tested v0.1.4 functionality
-- No changes to the data-collection logic planned
+- No changes to the data-collection logic compared with v0.1.4
 
 ### v0.1.4 (pre-release)
 
