@@ -4,7 +4,7 @@ Unofficial Home Assistant integration for monitoring Sweden's electricity system
 
 The integration provides information about Swedish electricity generation, consumption, and physical cross-border electricity flows directly in Home Assistant.
 
-**Current stable version: v0.1.5.**
+**Current stable version: v0.1.6.**
 
 > **Disclaimer:** This is an independent, community-developed integration. It is not affiliated with, maintained by, or endorsed by Svenska kraftnät, ENTSO-E, or Home Assistant.
 >
