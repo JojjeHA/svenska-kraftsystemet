@@ -258,7 +258,19 @@ The following limitations should be considered:
 - A valid value of 0 MW is different from missing data.
 - Pumped-storage generation and consumption require additional validation.
 
-The integration does not currently provide a verified national total electricity generation sensor.
+### Reported electricity generation – important limitations
+
+The integration calculates total reported electricity generation by summing the available generation categories across Sweden's four bidding zones (SE1–SE4).
+
+**This is not an independently verified total of all electricity generation in Sweden.**
+
+ENTSO-E may omit production categories or report data with delays. Missing categories are not automatically interpreted as zero generation. Consequently, the calculated total may underestimate actual Swedish electricity generation.
+
+Generation shares (%) represent each production group's share of the **total reported generation included in the calculation**, not its share of national electricity consumption or electricity supply.
+
+Electricity imports and exports are not included in the production shares.
+
+The calculated value *Reported generation minus consumption* is an indicative difference between two reported datasets and must not be interpreted as a verified national electricity balance or physical net export.
 
 ## Integration icon
 
