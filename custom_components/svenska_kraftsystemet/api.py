@@ -342,6 +342,7 @@ class EntsoeClient:
                     errors.append(f"{request_key}_missing_at_timestamp")
             data["flows"][key] = pair
 
+
         if len(production) < len(SWEDISH_AREAS):
             _LOGGER.warning(
                 "ENTSO-E partial generation snapshot at %s UTC: available zones %s; "
@@ -350,8 +351,12 @@ class EntsoeClient:
                 ",".join(sorted(production)) or "none",
                 ",".join(area for area in SWEDISH_AREAS if area not in production),
                 consumption["SE"] is not None,
-                ",".join(sorted(request_errors)) or "none",
+                ",".join(
+                    f"{key} ({reason})"
+                    for key, reason in sorted(request_errors.items())
+                ) or "none",
             )
+
         elif request_errors:
             _LOGGER.debug(
                 "ENTSO-E data loaded at %s UTC; failed optional requests: %s",
