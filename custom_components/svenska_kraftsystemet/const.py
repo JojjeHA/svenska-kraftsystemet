@@ -3,7 +3,7 @@ from datetime import timedelta
 DOMAIN = "svenska_kraftsystemet"
 CONF_API_KEY = "api_key"
 API_URL = "https://web-api.tp.entsoe.eu/api"
-SCAN_INTERVAL = timedelta(minutes=60)
+SCAN_INTERVAL = timedelta(minutes=15)
 # EIC codes verified against previously successful ENTSO-E API requests.
 AREAS = {
     "SE1": "10Y1001A1001A44P", "SE2": "10Y1001A1001A45N",
