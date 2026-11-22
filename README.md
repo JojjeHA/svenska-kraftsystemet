@@ -6,7 +6,6 @@ The integration provides information about Swedish electricity generation, consu
 
 **Latest stable release: [v0.1.11](https://github.com/JojjeHA/svenska-kraftsystemet/releases/tag/v0.1.11).**
 
-**Development version: v0.1.10 (pre-release planned).** The most recently published pre-release is [v0.1.9](https://github.com/JojjeHA/svenska-kraftsystemet/releases/tag/v0.1.9).
 
 > **Disclaimer:** This is an independent, community-developed integration. It is not affiliated with, maintained by, or endorsed by Svenska kraftnät, ENTSO-E, or Home Assistant.
 >
