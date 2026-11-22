@@ -4,7 +4,7 @@ Unofficial Home Assistant integration for monitoring Sweden's electricity system
 
 The integration provides information about Swedish electricity generation, consumption, and physical cross-border electricity flows directly in Home Assistant.
 
-**Latest stable release: [v0.1.5](https://github.com/JojjeHA/svenska-kraftsystemet/releases/tag/v0.1.5).**
+**Latest stable release: [v0.1.11](https://github.com/JojjeHA/svenska-kraftsystemet/releases/tag/v0.1.11).**
 
 **Development version: v0.1.10 (pre-release planned).** The most recently published pre-release is [v0.1.9](https://github.com/JojjeHA/svenska-kraftsystemet/releases/tag/v0.1.9).
 
@@ -335,7 +335,14 @@ These features are planned or under consideration, not part of this release.
 
 ## Version history
 
-### v0.1.10 (planned pre-release; not yet published)
+### v0.1.11 – Stable release
+
+- Consolidates the reliability improvements introduced in v0.1.6–v0.1.10.
+- Promotes the tested v0.1.10 functionality to a stable release.
+- Updated documentation.
+- No changes to the data-collection logic compared with v0.1.10.
+
+### v0.1.10 (pre-release)
 
 - Retry transient HTTP 599 errors in addition to existing retryable statuses
 - Increase per-request timeout from 20 to 30 seconds
