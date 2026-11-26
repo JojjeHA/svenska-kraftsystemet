@@ -2,8 +2,6 @@
 
 An optional dashboard example using Bar Card and built-in Entities cards.
 
-## Example Home Assistant dashboard
-
 The following optional example displays all main production groups, their reported-generation shares, Sweden-wide consumption, the indicative production/consumption difference, and physical cross-border imports/exports.
 
 It uses [Bar Card (maintained fork)](https://github.com/vogon1/bar-card) for the percentage bars, plus Home Assistant's built-in Entities cards. Install Bar Card through HACS Marketplace (add that repository as a **Dashboard** custom repository if necessary) before pasting this YAML into a **Manual card**.
