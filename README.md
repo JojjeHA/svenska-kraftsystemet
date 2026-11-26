@@ -1,3 +1,9 @@
+
+<p align="center">
+  <img src="custom_components/svenska_kraftsystemet/brand/icon@2x.png" width="200" alt="Svenska kraftsystemet logo">
+</p>
+
+
 # Svenska kraftsystemet – Home Assistant
 
 Unofficial Home Assistant integration for monitoring Sweden's electricity generation, consumption and physical cross-border electricity flows using the **ENTSO-E Transparency Platform**.
