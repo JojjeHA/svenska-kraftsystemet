@@ -2,8 +2,6 @@
 
 Release history for Svenska kraftsystemet.
 
-## Version history
-
 ### v0.1.11 – Stable release
 
 - Consolidates reliability improvements from v0.1.6–v0.1.10.
